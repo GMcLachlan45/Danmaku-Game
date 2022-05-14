@@ -36,8 +36,14 @@ int main() {
         std::cout << "Failed to initialize GLAD" << std::endl;
         return -1;
     }
+ 
+	const unsigned char* glVer = glGetString(GL_VERSION);
+		std::cout << glVer << std::endl;
+	
     //Rendering loop
     while(!glfwWindowShouldClose(window)) {
+		
+		
         // input
         processInput(window);
         // Rendering instructions
