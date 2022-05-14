@@ -16,7 +16,7 @@ if (UNIX)
 		-lXrandr
 		-lXi
 		-lX11
-		#-lXxf86vm
+		-lXxf86vm
 		-lpthread
 		-ldl
 		-lXinerama

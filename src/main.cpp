@@ -14,6 +14,10 @@ void processInput(GLFWwindow *window);
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
 
+float r = 0.2f; 
+float g = 0.2f; 
+float b = 0.2f; 
+
 int main() {
     //Initialize GLFW
     glfwInit();
@@ -27,6 +31,8 @@ int main() {
         glfwTerminate();
         return -1;
     }
+
+
     //Notify GLFW to set the context of our window as the main context of the current thread
     glfwMakeContextCurrent(window);
     //Register a callback function for the window. Whenever the window changes size, GLFW will call this function and fill in the corresponding parameters for your processing.
@@ -47,7 +53,7 @@ int main() {
         // input
         processInput(window);
         // Rendering instructions
-        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+        glClearColor(r, g, b, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
         // Check and call event, exchange buffer
         glfwSwapBuffers(window);//Check the trigger event
@@ -61,7 +67,23 @@ int main() {
 //Input control, check if the user presses the return key (Esc)
 void processInput(GLFWwindow *window) {
     if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
-        glfwSetWindowShouldClose(window, true);
+        r+= (std::rand()*2/RAND_MAX) - 1;
+        b+= (std::rand()*2/RAND_MAX) - 1;
+        g+= (std::rand()*2/RAND_MAX) - 1;
+        std::cout<<r<<" "<<g<< " " <<b<<std::endl;
+        if(r>1)
+            r=1.0;
+        if(b>1)
+            b=1.0;
+        if(g>1)
+            g=1.0;
+        if(r<1)
+            r=0.0;
+        if(b<1)
+            b=0.0;
+        if(g<1)
+            g=0.0;
+            
     }
 }
 
