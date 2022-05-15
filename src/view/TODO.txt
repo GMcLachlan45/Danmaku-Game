@@ -1,0 +1,6 @@
+The view side of this project will mostly be taking what 
+the main game loop does and project it onto the screen
+
+TODO: make score overlay thing
+TODO: make main field to be main gameplay loop
+TODO: make spellcard thing for bosses and player
