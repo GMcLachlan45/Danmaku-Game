@@ -14,9 +14,23 @@ void processInput(GLFWwindow *window);
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
 
-float r = 0.2f; 
-float g = 0.2f; 
-float b = 0.2f; 
+/*class player(){
+    public:
+        short int pos[2];
+        std::string name;
+    
+
+    player(std::string name){
+        pos[0] = 0;
+        pos[1] = 0;
+        name = "Jeremy";
+    }
+};
+*/
+
+float r = 0.0f; 
+float g = 0.0f; 
+float b = 0.0f; 
 
 int main() {
     //Initialize GLFW
@@ -43,6 +57,9 @@ int main() {
         return -1;
     }
  
+    //Initializes the player
+    
+
 	const unsigned char* glVer = glGetString(GL_VERSION);
 		std::cout << glVer << std::endl;
 	
@@ -52,6 +69,8 @@ int main() {
 		
         // input
         processInput(window);
+
+
         // Rendering instructions
         glClearColor(r, g, b, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
@@ -64,26 +83,26 @@ int main() {
     return EXIT_SUCCESS;
 }
 
-//Input control, check if the user presses the return key (Esc)
+//Input control, check if the user presses the arrow keys
 void processInput(GLFWwindow *window) {
-    if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
-        r+= (std::rand()*2/RAND_MAX) - 1;
-        b+= (std::rand()*2/RAND_MAX) - 1;
-        g+= (std::rand()*2/RAND_MAX) - 1;
-        std::cout<<r<<" "<<g<< " " <<b<<std::endl;
-        if(r>1)
-            r=1.0;
-        if(b>1)
-            b=1.0;
-        if(g>1)
-            g=1.0;
-        if(r<1)
-            r=0.0;
-        if(b<1)
-            b=0.0;
-        if(g<1)
-            g=0.0;
-            
+    if(glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS) {
+        std::cout<< "Pushed up" <<std::endl;
+        r+=0.004;
+    }
+    if(glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS) {
+        std::cout<< "Pushed down" <<std::endl;
+    }
+    if(glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS) {
+        std::cout<< "Pushed left" <<std::endl;
+        g+=0.004;
+    }
+    if(glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS) {
+        std::cout<< "Pushed right" <<std::endl;   
+        b+=0.004;     
+    }
+    if(glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS){
+        std::cout << "Pushed shift" <<std::endl;
+        r=g=b=0.0f;
     }
 }
 

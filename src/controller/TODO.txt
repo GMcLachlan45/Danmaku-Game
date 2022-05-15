@@ -1,0 +1,10 @@
+For the Controller side of this project, there needs to be a way to 
+control what is going on on the screen
+This will likely involve taking the keyboard input and then sending it 
+off to the model for processing
+
+So:
+TODO: find an elegant system to handle keyboard input
+TODO: allow for control customization
+
+Stretch TODO: detect and allow gamepad input

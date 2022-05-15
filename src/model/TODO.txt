@@ -1,0 +1,6 @@
+The model is where a lot of the main stuff will be
+There'll be the actual enemies and numbers
+
+TODO: make the playing field
+TODO: make enemies
+TODO: and bullets and shot and player
