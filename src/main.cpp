@@ -1,6 +1,5 @@
 // System Headers
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
+#include "view/renderer.h"
 
 // Standard Headers
 #include <cstdio>
@@ -13,20 +12,6 @@ void processInput(GLFWwindow *window);
 // settings
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
-
-/*class player(){
-    public:
-        short int pos[2];
-        std::string name;
-    
-
-    player(std::string name){
-        pos[0] = 0;
-        pos[1] = 0;
-        name = "Jeremy";
-    }
-};
-*/
 
 float r = 0.0f; 
 float g = 0.0f; 
@@ -63,8 +48,9 @@ int main() {
 	const unsigned char* glVer = glGetString(GL_VERSION);
 		std::cout << glVer << std::endl;
 	
+    bool game_exit = false;
     //Rendering loop
-    while(!glfwWindowShouldClose(window)) {
+    while(!glfwWindowShouldClose(window)&&!game_exit) {
 		
 		
         // input
