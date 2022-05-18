@@ -4,7 +4,7 @@ This will likely involve taking the keyboard input and then sending it
 off to the model for processing
 
 So:
-TODO: find an elegant system to handle keyboard input
+TODO: find an elegant system to handle keyboard input //cool, that works
 TODO: allow for control customization
 
 Stretch TODO: detect and allow gamepad input
