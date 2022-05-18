@@ -4,7 +4,9 @@ set(CMAKE_CXX_STANDARD 17)
 project(Danmaku-Game)
 find_package(glfw3 REQUIRED)
 find_package(glm REQUIRED)
-file(GLOB project_file main.cpp model/glad.c)
+file(GLOB project_file main.cpp model/glad.c 
+	 model/game.cpp controller/process.cpp 
+	 view/renderer.cpp)
 add_executable(danmaku ${project_file})
 
 if (UNIX)
