@@ -6,7 +6,8 @@ find_package(glfw3 REQUIRED)
 find_package(glm REQUIRED)
 file(GLOB project_file main.cpp model/glad.c 
 	 model/game.cpp controller/process.cpp 
-	 view/renderer.cpp)
+	 view/renderer.cpp model/entities/entity.cpp
+	 )
 add_executable(danmaku ${project_file})
 
 if (UNIX)
