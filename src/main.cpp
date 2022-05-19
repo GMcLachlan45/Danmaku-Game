@@ -6,6 +6,7 @@
 // Standard Headers
 #include <cstdio>
 #include <cstdlib>
+#include <chrono>
 
 void framebuffer_size_callback(GLFWwindow *window, int width, int height);//Callback function prototype declaration
 
@@ -17,6 +18,7 @@ const unsigned int SCR_HEIGHT = 600;
 float rgb[]= {0.0f, 0.0f, 0.0f};
 
 int main() {
+    auto time = std::chrono::system_clock::now();
     //Initialize view
     Renderer rend;
 
@@ -25,6 +27,7 @@ int main() {
 
     //Initialize control
     InputHandler control;
+    InputHandler *cont = &control;
 
     //Create a window object
     if (rend.window_fails()) {
@@ -50,11 +53,14 @@ int main() {
 	
     bool game_exit = false;
     //Rendering loop
+    std::chrono::duration<double> delta = std::chrono::system_clock::now()-time;
     while(!glfwWindowShouldClose(rend.window)&&!game_exit) {
+        time = std::chrono::system_clock::now();
         // Control
         control.process_input(rend.window, rgb);
 
         // Update the Game (model)
+        ng.updateGame(cont, 2);
 
         // Display
 
@@ -64,7 +70,12 @@ int main() {
         // Check and call event, exchange buffer
         glfwSwapBuffers(rend.window);//Check the trigger event
         glfwPollEvents();    //Exchange color buffer
+
+        // get how long loop takes
+        delta = std::chrono::system_clock::now()-time;
     }
+
+    std::cout << (1.0/(double) delta.count()) << std::endl;
     //Release/delete all resources allocated before
     return EXIT_SUCCESS;
 }
