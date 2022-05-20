@@ -6,13 +6,13 @@
 
 class InputHandler{
     public:
-    bool up, down, left, right;
+    bool up, down, left, right, shift;
     
         InputHandler();
         ~InputHandler();
 
         void initialize_controls();
-        void process_input(GLFWwindow *window, float rgb[]);  
+        void process_input(GLFWwindow *window);  
 };
 
 #endif
