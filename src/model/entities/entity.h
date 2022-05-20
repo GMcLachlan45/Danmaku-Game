@@ -1,9 +1,16 @@
+#include "../../controller/process.h"
 class Entity{
     int entityId;
     int posX, posY;
     float angle;
     public:
         Entity(int id, int x, int y, float theta);
-        Entity(int id, int x, int y);
         ~Entity();
+
+        void move();
+        void move(InputHandler * input, float delta);
+
+        // getters
+        int getX();
+        int getY();
 };
