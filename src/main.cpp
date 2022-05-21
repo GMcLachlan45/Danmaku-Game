@@ -36,11 +36,28 @@ int main() {
         return -1;
     }
 
+    float positions[6] = {-0.5f, -0.5f,
+                         -0.5f, 0.5f,
+                          0.0f, 0.5f};
+
+    GLuint buffer;
+    glGenBuffers(1, &buffer);
+    glBindBuffer(GL_ARRAY_BUFFER, buffer);
+    glBufferData(GL_ARRAY_BUFFER, 6 * sizeof(float), positions, GL_STATIC_DRAW);
+
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float)*2, 0);
+
+
+    GLuint shader = view.createShader("vertexShader", "fragmentShader");
+
+
 
     //Notify GLFW to set the context of our window as the main context of the current thread
     glfwMakeContextCurrent(viewPtr->window);
     //Register a callback function for the window. Whenever the window changes size, GLFW will call this function and fill in the corresponding parameters for your processing.
     glfwSetFramebufferSizeCallback(viewPtr->window, framebuffer_size_callback);
+    
     //Initialize the function pointer used by GLAD to manage OpenGL
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
         std::cout << "Failed to initialize GLAD" << std::endl;
@@ -59,7 +76,6 @@ int main() {
         // Control
         controlPtr->process_input(viewPtr->window);
 
-
         // get how long loop takes
         // Update the Game (model)
         modelPtr->update_game(controlPtr, (float) (std::chrono::system_clock::now()-time).count());
@@ -68,10 +84,11 @@ int main() {
 
         // Rendering instructions
         glClearColor(rgb[0], rgb[1], rgb[2], 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
-        // Check and call event, exchange buffer
-        glfwSwapBuffers(viewPtr->window);//Check the trigger event
-        glfwPollEvents();    //Exchange color buffer
+        
+        viewPtr->render();
+        
+        //Check the trigger event
+        glfwPollEvents();    
 
     }
 
