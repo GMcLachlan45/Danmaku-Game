@@ -1,6 +1,6 @@
 #include <vector>
 #include "entities/entity.h"
-#include "../controller/process.h"
+#include "../controller/InputHandler.h"
 
 class Game{
         enum state{menu, playing};

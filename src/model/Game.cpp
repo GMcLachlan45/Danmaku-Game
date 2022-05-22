@@ -1,4 +1,4 @@
-#include "game.h"
+#include "Game.h"
 
 Game::Game() 
     : enemies(), player(0,0,0,0){};
