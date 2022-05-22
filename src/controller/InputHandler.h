@@ -1,6 +1,6 @@
 
-#ifndef PROCESS_H
-#define PROCESS_H
+#ifndef INPUT_HANDLER_H
+#define INPUT_HANDLER_H
 #include <GLFW/glfw3.h>
 #include <iostream>
 
