@@ -1,7 +1,7 @@
 // System Headers
-#include "view/renderer.h"
-#include "model/game.h"
-#include "controller/process.h"
+#include "view/Renderer.h"
+#include "model/Game.h"
+#include "controller/InputHandler.h"
 
 // Standard Headers
 #include <cstdio>
@@ -18,6 +18,7 @@ const unsigned int SCR_HEIGHT = 600;
 float rgb[]= {0.0f, 0.0f, 0.0f};
 
 int main() {
+
     auto time = std::chrono::system_clock::now();
     //Initialize view
     Renderer view;
@@ -31,22 +32,73 @@ int main() {
     InputHandler control;
     InputHandler *controlPtr = &control;
 
+
+    //Create a window object
+    if (viewPtr->window_fails()) {
+        std::cout<< "Window failed" << std::endl;
+        return -1;
+    }
+
+    //Notify GLFW to set the context of our window as the main context of the current thread
+    glfwMakeContextCurrent(viewPtr->window);
+    //Register a callback function for the window. Whenever the window changes size, GLFW will call this function and fill in the corresponding parameters for your processing.
+    glfwSetFramebufferSizeCallback(viewPtr->window, framebuffer_size_callback);
+    
+
     //Initialize the function pointer used by GLAD to manage OpenGL
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
         std::cout << "Failed to initialize GLAD" << std::endl;
         return -1;
     }
 
+    float positions[8] = {-0.5f, 0.5f,
+                        -0.5f, -0.5f,
+                        0.5f, -0.5f,
+                        0.5f, 0.5f};
+    
+    // Vertex Array
+    GLuint vertexArray;
+    glGenVertexArrays(1, &vertexArray);
+    glBindVertexArray(vertexArray);
+
+    //Vertex Buffer
+    GLuint vertexBuffer;
+    glGenBuffers(1, &vertexBuffer);
+    glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(positions), positions, GL_STATIC_DRAW);
+
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, 6, GL_FLOAT, GL_FALSE, 6*sizeof(float), nullptr);
+
+
+    GLuint indices[6] = {0,1,2,1,2,3};
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+
+
+    GLuint buffer;
+
+    glGenBuffers(1, &buffer); 
+
+    glBindBuffer(GL_ARRAY_BUFFER, buffer);
+    glBufferData(GL_ARRAY_BUFFER, 2 * sizeof(float), positions, GL_STATIC_DRAW);
+
+    glEnableVertexAttribArray(0);
+    
+    glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof(float)*4, 0);
+
+    GLuint shader = Renderer::createShader(
+        "../resources/shaders/vertexShader.glsl", 
+        "../resources/shaders/fragmentShader.glsl");
+
+    glUseProgram(shader);
+
+
+
+
 
     //Initializes the player
 	const unsigned char* glVer = glGetString(GL_VERSION);
 		std::cout << glVer << std::endl;
-
-    //Create a window object
-    if (viewPtr->window_fails()) {
-        std::cout<< "window failed" << std::endl;
-        return -1;
-    }
 
     bool game_exit = false;
     //Rendering loop
@@ -61,9 +113,12 @@ int main() {
         // Display
 
         // Rendering instructions
-        glClearColor(rgb[0], rgb[1], rgb[2], 1.0f);
-        
-        viewPtr->render();
+        glClear(GL_COLOR_BUFFER_BIT);
+
+        glClearColor(1.0f, 0.0f, 0.0f, 1.0f);//rgb[0], rgb[1], rgb[2], 1.0f);
+        glDrawArrays(GL_LINE_LOOP, 0, 4);
+
+        glfwSwapBuffers(viewPtr->window);
         
         //Check the trigger event
         glfwPollEvents();    
@@ -89,29 +144,4 @@ void framebuffer_size_callback(GLFWwindow *window, int width, int height) {
 
 
 
-    // std::cout << "Got 1" << std::endl;
-
-    // float positions[6] = {-0.5f, -0.5f,
-    //                      -0.5f, 0.5f,
-    //                       0.0f, 0.5f};
     
-    // std::cout << "Got 2" << std::endl;
-
-    // GLuint buffer;
-
-    // std::cout << "Got 3" << std::endl;
-    // glGenBuffers(1, &buffer); 
-
-    // std::cout << "Got 4" << std::endl;
-    // glBindBuffer(GL_ARRAY_BUFFER, buffer);
-
-    // std::cout << "Got 5" << std::endl;
-    // glBufferData(GL_ARRAY_BUFFER, 6 * sizeof(float), positions, GL_STATIC_DRAW);
-
-    // std::cout << "Got 6" << std::endl;
-
-    // glEnableVertexAttribArray(0);
-    // glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float)*2, 0);
-
-
-    // GLuint shader = Renderer::createShader("vertexShader", "fragmentShader");
