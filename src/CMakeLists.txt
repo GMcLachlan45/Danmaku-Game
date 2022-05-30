@@ -8,6 +8,7 @@ file(GLOB project_file main.cpp model/glad.c
 	 model/Game.cpp controller/InputHandler.cpp 
 	 view/Renderer.cpp model/entities/entity.cpp
 	 )
+	 
 add_executable(danmaku ${project_file})
 
 if (UNIX)
