@@ -19,7 +19,7 @@ float rgb[]= {0.0f, 0.0f, 0.0f};
 
 int main() {
 
-    auto time = std::chrono::system_clock::now();
+   // auto time = std::chrono::system_clock::now();
     //Initialize view
     Renderer view;
     Renderer *viewPtr = &view;
@@ -54,9 +54,9 @@ int main() {
     }
 
 
-	                //		x		y	  z		rgb
-    float vertices[6] = {-0.5f,  0.5f ,// 0.0f, //0.0f, 0.0f, 0.0f,
-                          -0.5f, -0.5f,// 0.0f, //0.0f, 0.0f, 0.0f,
+                    //		x		y	  z		rgb
+    float vertices[6] = {-0.5f,  -0.5f ,// 0.0f, //0.0f, 0.0f, 0.0f,
+                          0.5f, 0.5f,// 0.0f, //0.0f, 0.0f, 0.0f,
                            0.5f, -0.5f};//,// 0.0f, //0.0f, 0.0f, 0.0f,
 						  // 0.5f,  0.5f};//,// 0.0f};//, 0.0f, 0.0f, 0.0f};
 
@@ -65,11 +65,25 @@ int main() {
     glGenBuffers(1, &vertexBufferObject);
     glBindBuffer(GL_ARRAY_BUFFER, vertexBufferObject);
     glBufferData(GL_ARRAY_BUFFER, 6 * sizeof(float), vertices, GL_STATIC_DRAW); //Sends Vertices to the GPU
-	
-	//Position
-    glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), 0);
 
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2*sizeof(float), 0);
+
+    std::cout << "AAAAAAH    " << vertexBufferObject << std::endl;
+	// initialize shaders
+	
+     GLuint shader = Renderer::createShader(
+         "vertexShader.glsl", 
+         "fragmentShader.glsl");
+
+     glUseProgram(shader);
+
+
+
+
+   // viewPtr->setup();
 //						tl bl br tr
   //  GLuint indices[6] = {0,1,2,3};
 //	
@@ -91,13 +105,6 @@ int main() {
 //    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6*sizeof(float), (void*)(3 * sizeof(float)));
 
 	
-	// initialize shaders
-	
-    GLuint shader = Renderer::createShader(
-        "../resources/shaders/vertexShader.glsl", 
-        "../resources/shaders/fragmentShader.glsl");
-
-    glUseProgram(shader);
 
 
 	std::cout << glGetString(GL_VERSION) << std::endl;
@@ -116,13 +123,16 @@ int main() {
         // Display
 
         // Rendering instructions
+
+
+       // viewPtr->render();
         glClear(GL_COLOR_BUFFER_BIT);
-
-        glClearColor(0.5f, 0.0f, 0.0f, 1.0f);//rgb[0], rgb[1], rgb[2], 1.0f);
-		
-		glDrawArrays(GL_LINE, 0, 3);
-        //glDrawElements(GL_TRIANGLE_FAN, 4, GL_UNSIGNED_INT, (void*)0);
-
+//
+      //  glClearColor(0.5f, 0.0f, 0.0f, 1.0f);//rgb[0], rgb[1], rgb[2], 1.0f);
+	//	
+        glDrawArrays(GL_TRIANGLES, 0, 3);
+      //  //glDrawElements(GL_TRIANGLE_FAN, 4, GL_UNSIGNED_INT, (void*)0);
+//
         glfwSwapBuffers(viewPtr->window);
         
         //Check the trigger event

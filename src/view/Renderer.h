@@ -14,6 +14,8 @@ class Renderer {
 
         void initialize();
         bool window_fails();
+
+        void setup();
         void render();
 
         static std::string readFromFile(std::string filename);

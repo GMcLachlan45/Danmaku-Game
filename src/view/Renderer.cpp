@@ -20,10 +20,16 @@ bool Renderer::window_fails(){
     return window == NULL;
 };
 
+
+void Renderer::setup(){
+};
+
+
+
 void Renderer::render(){
     glClear(GL_COLOR_BUFFER_BIT);
 
-    //glClearColor(1.0f, 0.0f, 0.0f, 1.0f);//rgb[0], rgb[1], rgb[2], 1.0f);
+   // glClearColor(1.0f, 0.0f, 0.0f, 1.0f);//rgb[0], rgb[1], rgb[2], 1.0f);
     glDrawArrays(GL_TRIANGLES, 0, 3);
 
     glfwSwapBuffers(window);
