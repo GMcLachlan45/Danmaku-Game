@@ -50,47 +50,57 @@ int main() {
         std::cout << "Failed to initialize GLAD" << std::endl;
         return -1;
     }
-
-    float positions[8] = {-0.5f, 0.5f,
-                        -0.5f, -0.5f,
-                        0.5f, -0.5f,
-                        0.5f, 0.5f};
-    
-    // Vertex Array
-    GLuint vertexArray;
-    glGenVertexArrays(1, &vertexArray);
-    glBindVertexArray(vertexArray);
-
-    //Vertex Buffer
-    GLuint vertexBuffer;
-    glGenBuffers(1, &vertexBuffer);
-    glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(positions), positions, GL_STATIC_DRAW);
-
-    glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 6, GL_FLOAT, GL_FALSE, 6*sizeof(float), nullptr);
-
-
-    GLuint indices[6] = {0,1,2,1,2,3};
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
-
-
-    GLuint buffer;
-
-    glGenBuffers(1, &buffer); 
-
-    glBindBuffer(GL_ARRAY_BUFFER, buffer);
-    glBufferData(GL_ARRAY_BUFFER, 2 * sizeof(float), positions, GL_STATIC_DRAW);
-
-    glEnableVertexAttribArray(0);
-    
-    glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof(float)*4, 0);
-
+	
+	
+	// initialize shaders
+	
     GLuint shader = Renderer::createShader(
         "../resources/shaders/vertexShader.glsl", 
         "../resources/shaders/fragmentShader.glsl");
 
     glUseProgram(shader);
+	
+	
+	
+						
+						
+					//		x		y	  z		rgb
+    float vertices[24] = {-0.5f,  0.5f, 0.0f,// 0.0f, 0.0f, 0.0f,
+                          -0.5f, -0.5f, 0.0f,// 0.0f, 0.0f, 0.0f,
+                           0.5f, -0.5f, 0.0f,// 0.0f, 0.0f, 0.0f,
+						   0.5f,  0.5f, 0.0f};//, 0.0f, 0.0f, 0.0f};
+
+    //Vertex Buffer
+    GLuint vertexBufferObject;
+    glGenBuffers(1, &vertexBufferObject);
+    glBindBuffer(GL_ARRAY_BUFFER, vertexBufferObject);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW); //Sends Vertices to the GPU
+	
+	
+	
+//						tl bl br tr
+    GLuint indices[6] = {0,1,2,3};
+	
+	// Index Buffer
+    GLuint indexBufferObject;
+    glGenBuffers(1, &indexBufferObject);
+
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBufferObject);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+	
+	
+	
+	//glBindBuffer(GL_ARRAY_BUFFER, vertexBufferObject);
+	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBufferObject);
+
+	// Position
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3*sizeof(float), 0);
+    glEnableVertexAttribArray(0);
+	
+
+	// Color
+   // glEnableVertexAttribArray(1);
+    //glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6*sizeof(float), (void*)(3 * sizeof(float)));
 
 
 
@@ -115,8 +125,10 @@ int main() {
         // Rendering instructions
         glClear(GL_COLOR_BUFFER_BIT);
 
-        glClearColor(1.0f, 0.0f, 0.0f, 1.0f);//rgb[0], rgb[1], rgb[2], 1.0f);
-        glDrawArrays(GL_LINE_LOOP, 0, 4);
+        glClearColor(0.0f, 0.0f, 0.0f, 1.0f);//rgb[0], rgb[1], rgb[2], 1.0f);
+		
+		
+        glDrawElements(GL_LINE_LOOP, 4, GL_UNSIGNED_INT, 0);
 
         glfwSwapBuffers(viewPtr->window);
         
