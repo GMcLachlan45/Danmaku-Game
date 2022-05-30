@@ -86,16 +86,17 @@ int main() {
     glGenBuffers(1, &indexBufferObject);
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBufferObject);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, 4 * sizeof(GLuint), &indices[0], GL_STATIC_DRAW);
 	
 	
 	
-	//glBindBuffer(GL_ARRAY_BUFFER, vertexBufferObject);
-	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBufferObject);
 
 	// Position
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3*sizeof(float), 0);
     glEnableVertexAttribArray(0);
+	
+	glBindBuffer(GL_ARRAY_BUFFER, vertexBufferObject);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBufferObject);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3*sizeof(float), 0);
 	
 
 	// Color
@@ -128,7 +129,7 @@ int main() {
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);//rgb[0], rgb[1], rgb[2], 1.0f);
 		
 		
-        glDrawElements(GL_LINE_LOOP, 4, GL_UNSIGNED_INT, 0);
+        glDrawElements(GL_LINE_LOOP, 4, GL_UNSIGNED_INT, (void*)0);
 
         glfwSwapBuffers(viewPtr->window);
         
