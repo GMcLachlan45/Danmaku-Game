@@ -49,22 +49,28 @@ int main() {
 
     // start with all of the buffers
 
+    float positions[6] = {
+        -0.5f, 0.5f,
+        -0.5f, -0.5f,
+        0.5f, -0.5f,
+    };
+
+
 	GLuint indexBufferObject;
     glGenBuffers(1, &indexBufferObject);
+    glBindBuffer(GL_ARRAY_BUFFER, indexBufferObject);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(positions), positions, GL_STATIC_DRAW);
 
 
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float)*2, (const void *) 0);
 
-
-
-
-
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 
 
     //Initializes the player
     bool game_exit = false;
-
-
 
     //Rendering loop
     while(!glfwWindowShouldClose(window)&&!game_exit) {
@@ -73,10 +79,15 @@ int main() {
         // input
         processInput(window);
 
-
         // Rendering instructions
         glClearColor(r, g, b, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
+
+        glDrawArrays(GL_TRIANGLES, 0, 3);
+
+
+ 
+ 
         // Check and call event, exchange buffer
         glfwSwapBuffers(window);//Check the trigger event
         glfwPollEvents();    //Exchange color buffer
