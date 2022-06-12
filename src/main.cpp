@@ -10,10 +10,10 @@
 #include <fstream>
 
 #include "view/ShaderCompiler.h"
+#include "controller/InputHandler.h"
 
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
-void processInput(GLFWwindow *window);
 
 // settings
 const unsigned int SCR_WIDTH = 800;
@@ -125,6 +125,10 @@ int main()
 
 
     // initialize the player and game variables
+
+
+    InputHandler control(window);
+
     bool game_exit = false;
     const unsigned char* glVer = glGetString(GL_VERSION);
 		std::cout << "Currently using " << glVer << std::endl;
@@ -134,7 +138,7 @@ int main()
     while (!glfwWindowShouldClose(window)&&!game_exit)
     {
         // input
-        processInput(window);
+        control.processInput();
 
         // render
         glClearColor(r, g, b, 1.0f);
@@ -162,31 +166,6 @@ int main()
     // ------------------------------------------------------------------
     glfwTerminate();
     return 0;
-}
-
-//Input control, check if the user presses the arrow keys
-void processInput(GLFWwindow *window) {
-    if(glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS) {
-        std::cout<< "Pushed up" <<std::endl;
-        r+=0.004;
-    }
-    if(glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS) {
-        std::cout<< "Pushed down" <<std::endl;
-    }
-    if(glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS) {
-        std::cout<< "Pushed left" <<std::endl;
-        g+=0.004;
-    }
-    if(glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS) {
-        std::cout<< "Pushed right" <<std::endl;   
-        b+=0.004;     
-    }
-    if(glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS){
-        std::cout << "Pushed shift" <<std::endl;
-        r=g=b=0.0f;
-    }
-    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-        glfwSetWindowShouldClose(window, true);
 }
 
 // glfw: whenever the window size changed (by OS or user resize) this callback function executes
