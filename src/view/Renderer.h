@@ -6,6 +6,14 @@
 #include <iostream>
 
 class Renderer {
+
+    // default screen size settings
+    const unsigned int SCR_WIDTH = 800;
+    const unsigned int SCR_HEIGHT = 800;
+
+
+    void setup();
+
     public:
         GLFWwindow *window;
 
@@ -15,14 +23,9 @@ class Renderer {
         void initialize();
         bool window_fails();
 
-        void setup();
+        bool windowHasNotClosed();
+
+
+
         void render();
-
-        static std::string readFromFile(std::string filename);
-
-        static GLuint compileShader(unsigned int shaderType, std::string sourceFile);
-
-        static GLuint createShader(
-            std::string vertexShaderFile,
-            std::string fragmentShaderFile);
 };

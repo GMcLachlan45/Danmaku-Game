@@ -9,42 +9,28 @@
 #include <string>
 #include <fstream>
 
+
+#include "view/Renderer.h"
 #include "view/ShaderCompiler.h"
 #include "controller/InputHandler.h"
 
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 
-// settings
-const unsigned int SCR_WIDTH = 800;
-const unsigned int SCR_HEIGHT = 800;
+int main(){
+    // set up the window and OpenGL context. 
+    // This will be the object that we call 
+    // most of the drawing logic from
+    Renderer view;
 
-float r = 0.0f; 
-float g = 0.0f; 
-float b = 0.0f; 
-
-
-int main()
-{
-    // glfw: initialize and configure
-    // ------------------------------
-    glfwInit();
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-
-    // glfw window creation
-    // --------------------
-    GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "Danmaku Game", NULL, NULL);
-    if (window == NULL)
-    {
+    if (view.window_fails()){
         std::cout << "Failed to create GLFW window" << std::endl;
         glfwTerminate();
         return -1;
     }
-    glfwMakeContextCurrent(window);
-    glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
+    glfwMakeContextCurrent(view.window);
+    glfwSetFramebufferSizeCallback(view.window, framebuffer_size_callback);
     // glad: load all OpenGL function pointers
     // ---------------------------------------
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
@@ -80,7 +66,7 @@ int main()
     };
 
     // holy moly, that's cool
-    glm::mat4 proj = glm::perspective(glm::radians(45.0f), (float) SCR_WIDTH/ (float) SCR_HEIGHT, -0.4f, 5.0f);
+    glm::mat4 proj = glm::perspective(glm::radians(45.0f), (float) 800.0/ (float) 800.0, -0.4f, 5.0f);
 
     std::cout << glm::to_string(proj) << std::endl;
 
@@ -121,13 +107,11 @@ int main()
 
 
     // uncomment this call to draw in wireframe polygons.
-    //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
 
     // initialize the player and game variables
-
-
-    InputHandler control(window);
+    InputHandler control(view.window);
 
     bool game_exit = false;
     const unsigned char* glVer = glGetString(GL_VERSION);
@@ -135,13 +119,12 @@ int main()
 
     // render loop
     // -----------
-    while (!glfwWindowShouldClose(window)&&!game_exit)
-    {
+    while (view.windowHasNotClosed() && !game_exit){
         // input
         control.processInput();
 
         // render
-        glClearColor(r, g, b, 1.0f);
+        glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
         // draw our first triangle
@@ -151,7 +134,7 @@ int main()
         // glBindVertexArray(0); // no need to unbind it every time 
  
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
-        glfwSwapBuffers(window);
+        glfwSwapBuffers(view.window);
         glfwPollEvents();
     }
 
@@ -168,8 +151,7 @@ int main()
     return 0;
 }
 
-// glfw: whenever the window size changed (by OS or user resize) this callback function executes
-// ---------------------------------------------------------------------------------------------
+
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
     // make sure the viewport matches the new window dimensions; note that width and 
