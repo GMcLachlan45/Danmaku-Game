@@ -5,7 +5,7 @@ project(Danmaku-Game)
 find_package(glfw3 REQUIRED)
 find_package(glm REQUIRED)
 file(GLOB project_file main.cpp glad.c
-		  view/ShaderCompiler.cpp
+	      view/ShaderCompiler.cpp view/Renderer.cpp	
 		  controller/InputHandler.cpp)
 add_executable(danmaku ${project_file})
 
