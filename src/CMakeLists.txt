@@ -6,7 +6,8 @@ find_package(glfw3 REQUIRED)
 find_package(glm REQUIRED)
 file(GLOB project_file main.cpp glad.c
 	      view/ShaderCompiler.cpp view/Renderer.cpp	
-		  controller/InputHandler.cpp)
+		  controller/InputHandler.cpp
+		  model/entities/Entity.cpp)
 add_executable(danmaku ${project_file})
 
 if (UNIX)
