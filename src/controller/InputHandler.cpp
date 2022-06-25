@@ -5,26 +5,23 @@ void InputHandler::setup(){
 }
 
 InputHandler::InputHandler(GLFWwindow *window){
-    windowptr = window;
+    windowPtr = window;
 }
 
 //Input control, check if the user presses the arrow keys
 void InputHandler::processInput() {
-    if(glfwGetKey(this->windowptr, GLFW_KEY_UP) == GLFW_PRESS) {
-        std::cout<< "Pushed up" <<std::endl;
-    }
-    if(glfwGetKey(this->windowptr, GLFW_KEY_DOWN) == GLFW_PRESS) {
-        std::cout<< "Pushed down" <<std::endl;
-    }
-    if(glfwGetKey(this->windowptr, GLFW_KEY_LEFT) == GLFW_PRESS) {
-        std::cout<< "Pushed left" <<std::endl;
-    }
-    if(glfwGetKey(this->windowptr, GLFW_KEY_RIGHT) == GLFW_PRESS) {
-        std::cout<< "Pushed right" <<std::endl;
-    }
-    if(glfwGetKey(this->windowptr, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS){
-        std::cout << "Pushed shift" <<std::endl;
-    }
-    if (glfwGetKey(this->windowptr, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-        glfwSetWindowShouldClose(this->windowptr, true);
+    buttonInputs[0] =(glfwGetKey(this->windowPtr, GLFW_KEY_UP) == GLFW_PRESS);
+    buttonInputs[1] =(glfwGetKey(this->windowPtr, GLFW_KEY_DOWN) == GLFW_PRESS);
+    buttonInputs[2] =(glfwGetKey(this->windowPtr, GLFW_KEY_LEFT) == GLFW_PRESS);
+    buttonInputs[3] =(glfwGetKey(this->windowPtr, GLFW_KEY_RIGHT) == GLFW_PRESS);
+    buttonInputs[4] =(glfwGetKey(this->windowPtr, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS);
+    // std::cout << buttonInputs[0]<< " "
+    // << buttonInputs[1]<< " "
+    // << buttonInputs[2]<< " "
+    // << buttonInputs[3]<< " "
+    // << buttonInputs[4]<< " " <<std::endl;
+    if (glfwGetKey(this->windowPtr, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+        glfwSetWindowShouldClose(this->windowPtr, true);
 }
+
+bool* InputHandler::getInput() {return this->buttonInputs;}
