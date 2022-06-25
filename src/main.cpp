@@ -14,8 +14,11 @@
 #include "view/ShaderCompiler.h"
 #include "controller/InputHandler.h"
 
+#include "model/entities/Entity.h"
+
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
+
 
 int main(){
     // set up the window and OpenGL context. 
@@ -111,18 +114,27 @@ int main(){
 
 
     // initialize the player and game variables
+
+    GameEntity reimu(0, 0, 0, 0);
+
     InputHandler control(view.window);
+
 
     bool game_exit = false;
     const unsigned char* glVer = glGetString(GL_VERSION);
 		std::cout << "Currently using " << glVer << std::endl;
+
+
 
     // render loop
     // -----------
     while (view.windowHasNotClosed() && !game_exit){
         // input
         control.processInput();
+        reimu.move(control.getInput(), 1.0);
 
+        std::cout << glm::to_string(reimu.getTransformationMatrix()) 
+        << std::endl;
         // render
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
